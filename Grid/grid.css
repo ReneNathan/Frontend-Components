@@ -1,6 +1,11 @@
+/*------------------Base para tabelas------------------*/
 .custom_table {
   width: 100%;
   border-collapse: collapse;
+}
+
+.custom_table_container{
+  margin-top: 12px;
 }
 
 .custom_table th {
@@ -16,6 +21,23 @@
 
 .custom_table tbody tr:nth-of-type(odd) {
   background-color: #f2f2f2;
+}
+
+.custom_table_header{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.grid_search_input{
+  min-height: 42px;
+  border: 1px solid rgba(210, 210, 227, 1);
+  margin-right: 8px;
+  border-radius: 8px;
+  padding-left: 12px;
+  padding-right: 12px;
+  max-width: 180px;
 }
 
 .custom_table_footer {
@@ -78,4 +100,11 @@
 .custom_table_number_container .is_selected {
   background-color: #15489e;
   color: white;
+}
+
+.custom_table tbody tr:hover {
+  cursor: pointer;
+  background-color: #049DD9 !important;
+  color: white;
+
 }

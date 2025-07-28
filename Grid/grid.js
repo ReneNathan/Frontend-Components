@@ -1,15 +1,22 @@
 /**
  * Constrói e gerencia uma grade (grid) paginada customizada com controles de navegação.
  *
- * Essa função associa eventos a elementos HTML relacionados a uma grade e realiza
- * chamadas para uma API para buscar e exibir dados paginados em uma tabela.
+ * Essa função associa eventos a elementos HTML relacionados a uma grid e realiza
+ * chamadas para uma API que retorna dados paginados. Os dados retornados são exibidos
+ * dinamicamente em uma tabela HTML, com base nos campos especificados.
  *
- * A grid deve possuir uma estrutura HTML com IDs padronizados baseados no `gridId`; ou seja, **use o mesmo `gridId` para todos os elementos relacionados no HTML.**
+ * A estrutura HTML da grid deve conter IDs padronizados com base no `gridId`
+ * fornecido. Ou seja, todos os elementos que compõem a grid (tabela, botões de navegação,
+ * indicadores de página, etc.) devem ter IDs no formato `${gridId}_seletor`.
  *
- * @param {string} gridId - Prefixo base usado nos IDs dos elementos HTML da grid.
- * @param {string} fetchUrlBase - URL base da API para buscar os dados. A função montará a URL final no formato `${fetchUrlBase}/{pageSize}/{pageNumber}`.
+ * @param {string} gridId - Prefixo usado nos IDs dos elementos HTML da grid.
+ * @param {string} fetchUrlBase - URL base da API. A URL completa será `${fetchUrlBase}/{pageSize}/{pageNumber}`.
+ * @param {string[]} [camposParaExibir=[]] - Lista de campos específicos a serem exibidos na tabela (em ordem).
+ *                                           Se vazio, nada será exibido. Os nomes devem corresponder às chaves do objeto retornado pela API.
  */
-function build_custom_grid(gridId, fetchUrlBase) {
+
+async function build_custom_grid(gridId, fetchUrlBase, camposParaExibir = []) {
+
   const container = document.getElementById(`${gridId}_container`);
   const select = container.querySelector(`#${gridId}_select`);
   const tableBody = container.querySelector(`#${gridId}_table tbody`);
@@ -31,16 +38,17 @@ function build_custom_grid(gridId, fetchUrlBase) {
     try {
       const pageSize = select.value;
       const url = `${fetchUrlBase}/${pageSize}/${pageNumber}`;
-      const resp = await fetch(url);
-      const data = await resp.json();
+      let resp = await fetch(url);
+      resp = await resp.json();
+      const data = resp.Details;
 
       // preenche a tabela
       tableBody.innerHTML = "";
       data.Results.forEach((rowData, i) => {
         const row = tableBody.insertRow();
-        Object.values(rowData).forEach((cellValue) => {
+        camposParaExibir.forEach((campo) => {
           const cell = row.insertCell();
-          cell.innerText = cellValue;
+          cell.innerText = rowData[campo] ?? "";
         });
       });
 
@@ -51,12 +59,13 @@ function build_custom_grid(gridId, fetchUrlBase) {
 
       // ajusta numeradores
       adjustNumerators(data.PageNumber, data.TotalNumberOfPages);
+	  //handle_table_{{TABLE_NAME}}_tr_click() 
     }
     catch (err) {
       Swal.fire({
         icon: "error",
         title: "Erro ao carregar a tabela!",
-        text: "Por favor tente novamente mais tarde.",
+        text: "Por favor tente novamente mais tarde. | Erro: " + err,
       });
     }
   }
@@ -116,5 +125,27 @@ function build_custom_grid(gridId, fetchUrlBase) {
   );
 
   // carga inicial
-  loadPage(+elPage.innerText);
+  await loadPage(+elPage.innerText);
+}
+
+function handle_table_{{TABLE_NAME}}_tr_click() {
+  const grid_hospitais_table = document.getElementById("grid_hospitais_table");
+  const table_rows = grid_hospitais_table.querySelectorAll("tbody tr");
+
+
+  table_rows.forEach((row) => {
+    row.addEventListener("click", () => {
+      const cell_hospital_name = row.querySelector("td:nth-child(1)");
+      const cell_hospital_endereco = row.querySelector("td:nth-child(2)");
+      const cell_hospital_bairro = row.querySelector("td:nth-child(3)");
+      const cell_hospital_cidade = row.querySelector("td:nth-child(4)");
+      document.getElementById("nome_unidade_saude").value = cell_hospital_name.innerHTML;
+      document.getElementById("endereco_unidade_saude").value = cell_hospital_endereco.innerHTML;
+      document.getElementById("bairro_unidade_saude").value = cell_hospital_bairro.innerHTML;
+      document.getElementById("municipio_unidade_saude").value = cell_hospital_cidade.innerHTML;
+
+      const btn_close_modal_select_hospital = document.getElementById("btn_close_modal_select_hospital");
+      btn_close_modal_select_hospital.click();
+    });
+  });
 }
