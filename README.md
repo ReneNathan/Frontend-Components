@@ -12,3 +12,5 @@ Esta biblioteca oferece funções utilitárias para construção de:
 - 🔧 Estrutura modular e extensível
 
 Ideal para uso em projetos com HTML/CSS puro ou integrados a frameworks leves.
+
+📄 Veja também: [Links úteis para desenvolvimento](./docs/links.md)
