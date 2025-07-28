@@ -1,0 +1,54 @@
+/*--------------- Estrutura do Modal------------------------ */
+/* Modal oculto por padrão */
+.modal {
+  display: none; /* Oculto inicialmente */
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Fundo escurecido */
+  opacity: 0; /* Inicialmente transparente para efeito fade-in */
+  transition: opacity 0.5s ease; /* Somente transição de opacidade no fundo */
+}
+
+/* Modal visível com fade-in */
+.modal.show {
+  display: block; /* Mostra o modal */
+  opacity: 1; /* Totalmente opaco */
+}
+
+/* Conteúdo do Modal com efeito de deslizamento */
+.modal-content {
+  background-color: white;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 75% !important; /* Tamanho do modal */
+  border-radius: 8px;
+  text-align: center;
+  transform: translateY(
+    -50px
+  ); /* Começa ligeiramente acima do centro */
+  transition: transform 0.5s ease; /* Transição suave de posição */
+}
+
+/* Modal content deslizamento para o centro */
+.modal.show .modal-content {
+  transform: translateY(0); /* Posição final no centro */
+}
+
+/* O botão de fechar (x) */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}

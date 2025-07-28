@@ -1,0 +1,66 @@
+<div id="{{gridId}}_container" class="custom_table_container">
+  <div class="custom_table_header">
+    <div class="number_of_register_per_page_container">
+      Exibir
+      <select
+        id="{{gridId}}_select"
+        class="form-select custom_select_table"
+        name="number_registers"
+      >
+        <option value="5"   {{ exampleData.PageSize == 5   ? 'selected' : '' }}>5</option>
+        <option value="10"  {{ exampleData.PageSize == 10  ? 'selected' : '' }}>10</option>
+        <option value="20"  {{ exampleData.PageSize == 20  ? 'selected' : '' }}>20</option>
+        <option value="30"  {{ exampleData.PageSize == 30  ? 'selected' : '' }}>30</option>
+        <option value="{{ exampleData.TotalNumberOfRecords }}"
+                {{ exampleData.PageSize == exampleData.TotalNumberOfRecords ? 'selected' : '' }}>
+          Todos
+        </option>
+      </select>
+      registros
+    </div>
+  </div>
+
+  <div class="custom_table_data">
+    <table id="{{gridId}}_table" class="custom_table">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Nome</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in exampleData.Results %}
+          <tr>
+            <td>{{ r.Id }}</td>
+            <td>{{ r.PessoaNome }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="custom_table_footer">
+    <div class="custom_table_counter">
+      Exibindo página
+      <span id="{{gridId}}_current_page">{{ exampleData.PageNumber }}</span>
+      de
+      <span id="{{gridId}}_total_pages">{{ exampleData.TotalNumberOfPages }}</span>
+      páginas, totalizando
+      <span id="{{gridId}}_total_records">{{ exampleData.TotalNumberOfRecords }}</span>
+      registros
+    </div>
+
+    <div class="custom_table_command_container">
+      <button id="{{gridId}}_refresh" class="custom_table_btn is_hidden">Refresh</button>
+      <button id="{{gridId}}_prev"    class="custom_table_btn">Anterior</button>
+      <div class="custom_table_number_container">
+        <div id="{{gridId}}_num_1" class="table_numerator is_selected">1</div>
+        <div id="{{gridId}}_num_2" class="table_numerator">2</div>
+        <div id="{{gridId}}_num_3" class="table_numerator">3</div>
+        <div id="{{gridId}}_num_4" class="table_numerator">4</div>
+        <div id="{{gridId}}_num_5" class="table_numerator">{{ exampleData.TotalNumberOfPages }}</div>
+      </div>
+      <button id="{{gridId}}_next"   class="custom_table_btn">Próximo</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,81 @@
+.custom_table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.custom_table th {
+  color: #15489e;
+}
+
+.custom_table th,
+.custom_table td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.custom_table tbody tr:nth-of-type(odd) {
+  background-color: #f2f2f2;
+}
+
+.custom_table_footer {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.custom_table_command_container,
+.custom_table_number_container {
+  display: flex;
+  flex-direction: row;
+  color: #5570c2;
+}
+
+.custom_table_command_container {
+  gap: 12px;
+}
+
+.custom_table_btn {
+  outline: 1px solid #eef0f2;
+  width: 84.6px;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+.custom_table_number_container div {
+  outline: 1px solid #eef0f2;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.custom_table_btn:hover,
+.custom_table_number_container div:hover {
+  background-color: #15489e;
+  color: white;
+}
+
+.custom_select_table {
+  width: fit-content !important;
+}
+
+.number_of_register_per_page_container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.custom_table_number_container .is_selected {
+  background-color: #15489e;
+  color: white;
+}
