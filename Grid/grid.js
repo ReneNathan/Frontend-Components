@@ -71,41 +71,46 @@ async function build_custom_grid(gridId, fetchUrlBase, camposParaExibir = []) {
   }
 
   function adjustNumerators(current, total) {
-    // sempre atualiza o quinto com total
-    numerators[4].innerText = total;
+    // limpa todos
+    numerators.forEach((num, idx) => {
+      num.classList.add("is_hidden");
+      num.classList.remove("is_selected");
+      num.innerText = "";
+    });
 
-    // decide visibilidade
-    if (total < 5) {
-      numerators.forEach((num, idx) => {
-        if (idx >= total) num.classList.add("is_hidden");
-      });
+    // define quantos numerators serão visíveis
+    const visibleCount = Math.min(total, numerators.length);
+
+    if (total <= 5) {
+      // Mostra sequencialmente de 1 até total
+      for (let i = 0; i < visibleCount; i++) {
+        numerators[i].classList.remove("is_hidden");
+        numerators[i].innerText = i + 1;
+
+        if (current === i + 1) {
+          numerators[i].classList.add("is_selected");
+        }
+      }
     } else {
-      numerators.forEach(num => num.classList.remove("is_hidden"));
-    }
+      // Sempre mostra 5 blocos
+      let pages = [];
 
-    // limpa selecionados
-    numerators.forEach(num => num.classList.remove("is_selected"));
+      if (current <= 2) {
+        pages = [1, 2, 3, 4, total];
+      } else if (current >= total - 1) {
+        pages = [total - 3, total - 2, total - 1, total, total];
+      } else {
+        pages = [current - 1, current, current + 1, total - 1, total];
+      }
 
-    // marca selecionado e ajusta textos
-    if (current === 1) {
-      numerators[0].classList.add("is_selected");
-      [2, 3, 4].forEach((n, i) => numerators[i + 1].innerText = i + 2);
-    }
-    else if (current === 2) {
-      numerators[1].classList.add("is_selected");
-    }
-    else if (current === total) {
-      numerators[4].classList.add("is_selected");
-      [total - 3, total - 2, total - 1].forEach((v, i) => numerators[i + 1].innerText = v);
-    }
-    else if (current === total - 1) {
-      numerators[3].classList.add("is_selected");
-    }
-    else {
-      numerators[2].classList.add("is_selected");
-      numerators[1].innerText = current - 1;
-      numerators[2].innerText = current;
-      numerators[3].innerText = current + 1;
+      for (let i = 0; i < numerators.length; i++) {
+        numerators[i].classList.remove("is_hidden");
+        numerators[i].innerText = pages[i];
+
+        if (current === pages[i]) {
+          numerators[i].classList.add("is_selected");
+        }
+      }
     }
   }
 
